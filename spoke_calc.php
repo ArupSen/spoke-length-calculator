@@ -202,24 +202,24 @@ print'
 	}
 	}
 </script>
-<h2>Spoke Length <br /> Calculator <span>1.1</span></h2>
+<h2>Spoke Length <br /> Calculator <span>1.2</span></h2>
 <p>Arup\'s spoke length calculator based on Damon Rinard\'s SpocalcExpress.xls.<br /><br />Calculates only one side.<br /><br />All values in mm.</p>
 <form name="spokeme" method="post" action="spoke_calc.php" onsubmit="return validateForm()">
 	
 	<p>No. of spokes</p>
-	<input type="text" name="spoke_count" value="" id="spoke_count" />
+	<input type="number" name="spoke_count" value="" id="spoke_count" min="16" step="2" />
 	
 	<p>Effective Rim Diameter</p>
-	<input type="text" name="erd" value="" id="erd" />	
+	<input type="number" name="erd" value="" id="erd" />	
 	
 	<p>Centre to Flange</p>
-	<input type="text" name="centre_to_flange" value="" id="centre_to_flange" />
+	<input type="number" name="centre_to_flange" value="" id="centre_to_flange" />
 	
 	<p>Flange Diameter or <abbr title="Pitch Circle Diameter">PCD</abbr></p>
-	<input type="text" name="flange_diameter" value="" id="flange_diameter" />
+	<input type="number" name="flange_diameter" value="" id="flange_diameter" />
 	
 	<p>Spoke hole diameter</p>
-	<input type="text" name="hole_size" value="" id="hole_size">
+	<input type="number" name="hole_size" value="" id="hole_size" min="2.0" step="0.1" />
 
 	<br /><br />
 		
