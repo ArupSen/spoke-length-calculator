@@ -21,6 +21,12 @@ if (isset($_POST['submit'])){
   $flange_diameter = $_POST['flange_diameter'];
   $hole_size = $_POST['hole_size'];
 
+  // to save repeated calculations of this value
+  $half_spoke_count = $spoke_count / 2;
+  $half_hole_size = $hole_size / 2;
+  $half_flange_diameter = $flange_diameter / 2;
+  $half_erd = $erd / 2;
+
   // to allow whole number integers to be entered we can convert to float
   // by multiplying by 1.0 which also keeps the value the same
   $centre_to_flange = $centre_to_flange * 1.0;
@@ -39,25 +45,26 @@ if (isset($_POST['submit'])){
   // the intermediate calculations
   // these are hidden columns on the spreadsheet
   $column_c = $centre_to_flange;
+  $ctf_squared = pow($centre_to_flange,2);
 
-  $column_a0 = $flange_diameter/2*sin(2*M_PI*ZERO_CROSS/($spoke_count/2));
-  $column_a1 = $flange_diameter/2*sin(2*M_PI*ONE_CROSS/($spoke_count/2));
-  $column_a2 = $flange_diameter/2*sin(2*M_PI*TWO_CROSS/($spoke_count/2));
-  $column_a3 = $flange_diameter/2*sin(2*M_PI*THREE_CROSS/($spoke_count/2));
-  $column_a4 = $flange_diameter/2*sin(2*M_PI*FOUR_CROSS/($spoke_count/2));
+  $column_a0 = $flange_diameter/2*sin(2*M_PI*ZERO_CROSS/($half_spoke_count));
+  $column_a1 = $flange_diameter/2*sin(2*M_PI*ONE_CROSS/($half_spoke_count));
+  $column_a2 = $flange_diameter/2*sin(2*M_PI*TWO_CROSS/($half_spoke_count));
+  $column_a3 = $flange_diameter/2*sin(2*M_PI*THREE_CROSS/($half_spoke_count));
+  $column_a4 = $flange_diameter/2*sin(2*M_PI*FOUR_CROSS/($half_spoke_count));
 
-  $column_b0 = $erd/2-(($flange_diameter/2)*cos(2*M_PI*ZERO_CROSS/($spoke_count/2)));
-  $column_b1 = $erd/2-(($flange_diameter/2)*cos(2*M_PI*ONE_CROSS/($spoke_count/2)));
-  $column_b2 = $erd/2-(($flange_diameter/2)*cos(2*M_PI*TWO_CROSS/($spoke_count/2)));
-  $column_b3 = $erd/2-(($flange_diameter/2)*cos(2*M_PI*THREE_CROSS/($spoke_count/2)));
-  $column_b4 = $erd/2-(($flange_diameter/2)*cos(2*M_PI*FOUR_CROSS/($spoke_count/2)));
+  $column_b0 = $half_erd-(($half_flange_diameter)*cos(2*M_PI*ZERO_CROSS/($half_spoke_count)));
+  $column_b1 = $half_erd-(($half_flange_diameter)*cos(2*M_PI*ONE_CROSS/($half_spoke_count)));
+  $column_b2 = $half_erd-(($half_flange_diameter)*cos(2*M_PI*TWO_CROSS/($half_spoke_count)));
+  $column_b3 = $half_erd-(($half_flange_diameter)*cos(2*M_PI*THREE_CROSS/($half_spoke_count)));
+  $column_b4 = $half_erd-(($half_flange_diameter)*cos(2*M_PI*FOUR_CROSS/($half_spoke_count)));
 
   // the actual spoke lengths
-  $length_0 = sqrt(pow($column_a0,2)+pow($column_b0,2)+pow($column_c,2))-($hole_size/2);
-  $length_1 = sqrt(pow($column_a1,2)+pow($column_b1,2)+pow($column_c,2))-($hole_size/2);
-  $length_2 = sqrt(pow($column_a2,2)+pow($column_b2,2)+pow($column_c,2))-($hole_size/2);
-  $length_3 = sqrt(pow($column_a3,2)+pow($column_b3,2)+pow($column_c,2))-($hole_size/2);
-  $length_4 = sqrt(pow($column_a4,2)+pow($column_b4,2)+pow($column_c,2))-($hole_size/2);
+  $length_0 = sqrt(pow($column_a0,2)+pow($column_b0,2)+$ctf_squared)-($half_hole_size);
+  $length_1 = sqrt(pow($column_a1,2)+pow($column_b1,2)+$ctf_squared)-($half_hole_size);
+  $length_2 = sqrt(pow($column_a2,2)+pow($column_b2,2)+$ctf_squared)-($half_hole_size);
+  $length_3 = sqrt(pow($column_a3,2)+pow($column_b3,2)+$ctf_squared)-($half_hole_size);
+  $length_4 = sqrt(pow($column_a4,2)+pow($column_b4,2)+$ctf_squared)-($half_hole_size);
 
 
   // get each length to one decimal place
